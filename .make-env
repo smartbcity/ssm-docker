@@ -1,0 +1,3 @@
+NAME=smartbcity/ssm
+IMG=${NAME}:${VERSION}
+LATEST=${NAME}:latest
