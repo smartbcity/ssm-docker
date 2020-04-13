@@ -1,12 +1,19 @@
-image: civisblockchain/builder-ci:0.1.0-local-1
+image: smartbcity/gitlab-ci-jdk8:1.0.0
 
 stages:
   - version
   - package
   - push
 
-variables:
-  DOCKER_DRIVER: overlay2
+
+.version:
+  stage: version
+  image: smartbcity/gitlab-ci-semantic-versioning:1.0.0
+  script:
+    - make -f /opt/io.smart-b/semantic-versioning/Makefile next_version >> version.build
+  artifacts:
+    paths:
+      - version*
 
 .package:
   stage: package
@@ -50,15 +57,9 @@ push-master:
   when: manual
 
 version-tags:
-  stage: version
-  image: civisblockchain/semantic-versioning:latest
-  script:
-    - make -f /opt/io.smart-b/semantic-versioning/Makefile next_version >> version.build
+  extends: .package
   only:
     - tags
-  artifacts:
-    paths:
-      - version*
 
 package-tags:
   extends: .package
