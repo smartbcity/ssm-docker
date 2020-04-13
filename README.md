@@ -18,22 +18,23 @@ VERSION=0.8.1
 
 ## Build proccess
 
-*  Define version
+* Create tag with ssm version (ex: v0.8.1)
 ```
-echo VERSION=0.8.1 > .version
+export VERSION=v0.8.1
+git tag -a ${VERSION} -m "${VERSION} version"
+git push ${VERSION}
 ```
 
-* Build, tag as latest version and push docker images
+* Package, tag as latest version and push docker images
 ```
-make build tag-latest push
+make package push push-latest -e VERSION= ${VERSION}
 ```
 
 ## Docker image
-
- * Build docker image
+ * Package docker image
 
 ```
-make build -e VERSION=0.4.2
+make package -e VERSION=0.4.2
 ```
 
  * Push docker image

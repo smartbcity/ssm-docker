@@ -1,0 +1,76 @@
+image: civisblockchain/builder-ci:0.1.0-local-1
+
+stages:
+  - version
+  - package
+  - push
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+.package:
+  stage: package
+  script:
+    - export VERSION_BUILD=$(cat version.build)
+    - make package -e VERSION=${VERSION_BUILD}
+
+.push:
+  stage: push
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+  script:
+    - export VERSION_BUILD=$(cat version.build)
+    - make push -e VERSION=${VERSION_BUILD}
+
+.push-latest:
+  stage: push
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+  script:
+    - export VERSION_BUILD=$(cat version.build)
+    - make push-latest -e VERSION=${VERSION_BUILD}
+
+package-master:
+  extends: .package
+  before_script:
+    - echo master > version.build
+  only:
+    refs:
+      - master
+  when: manual
+  artifacts:
+    paths:
+      - version*
+
+push-master:
+  extends: .push
+  only:
+    refs:
+      - master
+  when: manual
+
+version-tags:
+  stage: version
+  image: civisblockchain/semantic-versioning:latest
+  script:
+    - make -f /opt/io.smart-b/semantic-versioning/Makefile next_version >> version.build
+  only:
+    - tags
+  artifacts:
+    paths:
+      - version*
+
+package-tags:
+  extends: .package
+  only:
+    - tags
+
+push-tags:
+  extends: .push
+  only:
+    - tags
+
+push-latest-tags:
+  extends: .push-latest
+  only:
+    - tags

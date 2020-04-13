@@ -1,7 +1,6 @@
-include .version
 include .make-env
 
-build:
+package:
 	@docker build --build-arg VERSION=${VERSION} -f Dockerfile -t ${IMG} .
 
 push:
