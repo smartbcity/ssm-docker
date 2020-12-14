@@ -20,14 +20,15 @@ VERSION=0.8.1
 
 * Create tag with ssm version (ex: v0.8.1)
 ```
-export VERSION=v0.8.1
+export SSM_VERSION=v0.8.1
+export VERSION=2.3.0-0.8.2
 git tag -a ${VERSION} -m "${VERSION} version"
 git push ${VERSION}
 ```
 
 * Package, tag as latest version and push docker images
 ```
-make package push push-latest -e VERSION=${VERSION}
+make package push push-latest -e VERSION=${VERSION} -e SSM_VERSION=${SSM_VERSION}
 ```
 
 ## Docker image

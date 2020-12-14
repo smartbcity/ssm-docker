@@ -1,7 +1,7 @@
 include .make-env
 
 package:
-	@docker build --build-arg VERSION=${VERSION} -f Dockerfile -t ${IMG} .
+	@docker build --build-arg VERSION=${VERSION} --build-arg SSM_VERSION=${SSM_VERSION} -f Dockerfile -t ${IMG} .
 
 push:
 	@docker push ${IMG}
