@@ -27,7 +27,7 @@ git push ${VERSION}
 
 * Package, tag as latest version and push docker images
 ```
-make package push push-latest -e VERSION= ${VERSION}
+make package push push-latest -e VERSION=${VERSION}
 ```
 
 ## Docker image

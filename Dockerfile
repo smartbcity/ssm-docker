@@ -16,7 +16,7 @@ RUN wget --no-check-certificate -O clone.zip https://github.com/civis-blockchain
 RUN unzip clone.zip
 RUN mv blockchain-ssm-* blockchain-ssm
 
-FROM hyperledger/fabric-tools:1.4.0 as BUILDER
+FROM hyperledger/fabric-tools:2.3.0 as BUILDER
 
 ARG VERSION
 ARG BUILD_DIR
