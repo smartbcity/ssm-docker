@@ -23,7 +23,7 @@ VERSION=0.8.1
 export SSM_VERSION=v0.8.1
 export VERSION=2.3.0-0.8.2
 git tag -a ${VERSION} -m "${VERSION} version"
-git push ${VERSION}
+git push origin ${VERSION}
 ```
 
 * Package, tag as latest version and push docker images
